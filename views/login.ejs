@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Logo Section -->
+    <div class="logo-container">
+      <img style="width:40%;" src="/images/logo.png" alt="FixYourCV Logo" />
+      <h1>Login</h1>
+    </div>
+
+    <!-- Login Form -->
+    <form class="form-container" action="/auth/login" method="POST">
+      <!-- Email Input -->
+      <div class="input-group">
+        <label for="email">Email address*</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      </div>
+      <!-- Password Input -->
+      <div class="input-group">
+        <label for="password">Password*</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+      </div>
+
+      <!-- Login Button -->
+      <button type="submit" class="btn-primary">Log In</button>
+
+      <!-- Or Divider -->
+      <div class="divider">
+        <hr />
+        <span>OR</span>
+        <hr />
+      </div>
+
+      <!-- Google Login -->
+      <button class="btn-google" type="button" onclick="window.location.href='/auth/google'">
+        <i class="fab fa-google"></i> Continue with Google
+      </button>
+    </form>
+
+    <!-- Don't Have an Account -->
+    <p class="footer-text">
+      Don't have an account?
+      <a href="/auth/register">Register</a>
+    </p>
+  </div>
+</body>
+</html>

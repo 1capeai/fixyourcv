@@ -1,32 +1,73 @@
 const express = require('express');
+const session = require('express-session');
+const passport = require('./config/passport');
+const connectDB = require('./config/db');
+const dotenv = require('dotenv');
+const authRoutes = require('./routes/authRoutes');
+
+dotenv.config();
 const app = express();
-const port = process.env.PORT || 3000;
 
-// Serve static HTML
-app.get('/', (req, res) => {
-    res.send(`
-        <html>
-            <head>
-                <title>FixYourCV</title>
-            </head>
-            <body>
-                <h1>Welcome to FixYourCV</h1>
-                <p>This is the main page.</p>
-            </body>
-        </html>
-    `);
-});
+// Middleware
+app.set('view engine', 'ejs'); // Set EJS as the view engine
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
+app.use(express.static('public')); // Serve static files
 
-// API endpoint
-app.get('/api', (req, res) => {
-    res.json({
-        message: 'Hello from the API!',
-        status: 'success',
-        timestamp: new Date(),
+// Secure Session Middleware
+app.use(
+  session({
+    secret: process.env.JWT_SECRET || 'default_secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production', // Only secure in production (HTTPS)
+      sameSite: 'strict', // Prevent CSRF (adjust to 'none' for cross-origin if necessary)
+      httpOnly: true, // Prevent JavaScript access to the cookie
+    },
+  })
+);
+
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Database Connection
+connectDB();
+
+// Mount Auth Routes
+app.use('/auth', authRoutes);
+
+// Add the dashboard route directly if needed
+app.get('/dashboard', (req, res) => {
+  if (req.session && req.session.user) {
+    res.render('dashboard', {
+      title: 'Dashboard',
+      name: req.session.user.name,
+      email: req.session.user.email,
+      picture: req.session.user.picture,
     });
+  } else {
+    res.redirect('/auth/login'); // Redirect to login if not authenticated
+  }
 });
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+// Default route
+app.get('/', (req, res) => {
+  res.render('home', { title: 'Home' });
 });
+
+// 404 Error Handling
+app.use((req, res, next) => {
+  res.status(404).render('404', { title: '404 - Page Not Found' });
+});
+
+// General Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render('500', { title: '500 - Internal Server Error' });
+});
+
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

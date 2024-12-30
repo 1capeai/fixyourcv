@@ -1,0 +1,172 @@
+/* General Body Style */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Container Style */
+  .container {
+    width: 90%;
+    max-width: 400px; /* Center and limit width for all screen sizes */
+    background: #ffffff;
+    padding: 20px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  /* Logo */
+  .logo-container img {
+    width: 80px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  /* Header */
+  h1 {
+    font-size: 24px;
+    color: #292929; /* Updated color */
+    margin: 10px 0;
+  }
+  
+  /* Form Container */
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Input Field Group */
+  .input-group {
+    position: relative;
+  }
+  
+  .input-group input {
+    border: 1px solid #292929; /* Updated color */
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%; /* Ensures full-width alignment */
+    outline: none;
+    box-sizing: border-box; /* Includes padding and border */
+  }
+  
+  .input-group label {
+    position: absolute;
+    top: -8px;
+    left: 10px;
+    background: #fff;
+    color: #292929; /* Updated color */
+    font-size: 12px;
+    padding: 0 5px;
+  }
+  
+  /* Primary Button */
+  .btn-primary {
+    background-color: #292929; /* Updated color */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .btn-primary:hover {
+    background-color: #1f1f1f;
+  }
+  
+  /* Google Button */
+  .btn-google {
+    background-color: #db4437;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn-google i {
+    margin-right: 10px;
+  }
+  
+  .btn-google:hover {
+    background-color: #c23321;
+  }
+  
+  /* Footer Text */
+  .footer-text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .footer-text a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .footer-text a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  .divider hr {
+    flex: 1;
+    border: 0;
+    border-top: 1px solid #ccc;
+  }
+  
+  .divider span {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 480px) {
+    .container {
+      width: 95%;
+      padding: 15px;
+    }
+  
+    .logo-container img {
+      width: 60px;
+    }
+  
+    h1 {
+      font-size: 20px;
+    }
+  
+    .btn-primary,
+    .btn-google {
+      font-size: 14px;
+      padding: 10px;
+    }
+  
+    .footer-text {
+      font-size: 12px;
+    }
+  
+    .input-group input {
+      font-size: 14px;
+      padding: 8px;
+    }
+  }
+  
