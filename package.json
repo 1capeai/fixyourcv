@@ -1,0 +1,12 @@
+{
+  "name": "fixyourcv",
+  "version": "1.0.0",
+  "description": "A simple app for Render deployment",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
