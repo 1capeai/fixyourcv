@@ -3,107 +3,192 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixYourCV</title>
+  <title>fixyourCV - Stand Out & Get Your Job</title>
+  <link rel="stylesheet" href="/css/styles.css">
   <style>
+    /* General Styles */
     body {
       margin: 0;
-      padding: 0;
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       background-color: #292929;
-      color: white;
+      color: #ffffff;
     }
-    header {
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Navbar */
+    .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 20px 40px;
       background-color: #292929;
+      color: #ffffff;
     }
-    .logo {
+
+    .navbar .logo {
       font-size: 24px;
       font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      font-size: 16px;
+    }
+
+    .get-started-btn {
+      background-color: #ffffff;
       color: #e92a2a;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
     }
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
+
+    .get-started-btn:hover {
+      background-color: #f4c2c2;
     }
+
+    /* Hero Section */
     .hero-section {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 80px 40px;
+      justify-content: space-between;
+      padding: 60px;
+      background-color: #292929;
     }
+
     .hero-text {
       max-width: 50%;
     }
+
     .hero-text h1 {
       font-size: 48px;
+      font-weight: bold;
+      color: #ffffff;
       margin-bottom: 20px;
-      color: #e92a2a;
     }
+
+    .hero-text h1 span {
+      color: #8b45ff; /* Purple highlight color */
+    }
+
     .hero-text p {
       font-size: 18px;
-      line-height: 1.6;
+      margin-bottom: 20px;
     }
-    .hero-button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
+
+    .primary-btn {
       background-color: #e92a2a;
-      color: white;
-      font-size: 18px;
-      text-decoration: none;
+      color: #ffffff;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
       border-radius: 5px;
-      font-weight: bold;
+      transition: background-color 0.3s ease;
     }
-    .hero-image {
-      max-width: 40%;
+
+    .primary-btn:hover {
+      background-color: #f56060;
     }
-    footer {
+
+    .hero-image img {
+      width: 450px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Services Section */
+    .services {
+      text-align: center;
+      padding: 40px;
+      background-color: #292929;
+    }
+
+    .services h2 {
+      font-size: 36px;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .services p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #d1d1d1;
+    }
+
+    /* Footer */
+    .footer {
       text-align: center;
       padding: 20px;
       background-color: #292929;
-      color: white;
-      margin-top: 40px;
+      color: #ffffff;
+    }
+
+    .footer .powered {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer .powered img {
+      width: 30px;
+      height: auto;
     }
   </style>
 </head>
 <body>
-  <!-- Header Section -->
-  <header>
-    <div class="logo">FixYourCV</div>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">fixyourCV</div>
     <nav>
-      <a href="#features">Features</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+      <ul class="nav-links">
+        <li><a href="#resume">Resume</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </nav>
+    <button class="get-started-btn">Get Started</button>
   </header>
 
   <!-- Hero Section -->
-  <section class="hero-section">
+  <main class="hero-section">
     <div class="hero-text">
-      <h1>Stand Out & Get Your Job</h1>
-      <p>
-        Thousands of job seekers have benefited from FixYourCV's professional resume
-        builder by landing more interviews and getting hired in a shorter amount of time.
-      </p>
-      <a href="#" class="hero-button">Create Your Resume</a>
+      <h1>Stand <span>Out</span> & Get Your Job</h1>
+      <p>Thousands of job seekers have benefited from our professional resume builder by landing more interviews and being hired in a shorter amount of time.</p>
+      <button class="primary-btn">Create New Resume</button>
     </div>
-    <div>
-      <img
-        src="/images/hero-image.png"
-        alt="FixYourCV Hero Image"
-        class="hero-image"
-      />
+    <div class="hero-image">
+      <img src="/images/professional-assistance.png" alt="Professional Assistance">
     </div>
+  </main>
+
+  <!-- Services Section -->
+  <section class="services" id="services">
+    <h2>Our Services</h2>
+    <p>We use advanced AI to analyze CVs and integrate professional human validation. Our system leverages the best Large Language Models (LLMs) to give your CV the edge it needs to stand out.</p>
+    <p>Powered by OpenAI, we ensure your career toolkit is built with precision and innovation.</p>
   </section>
 
-  <!-- Footer Section -->
-  <footer>
-    <p>© 2024 FixYourCV. All rights reserved.</p>
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2024 fixyourCV. All rights reserved.</p>
+    <div class="powered">
+      <p>Powered by</p>
+      <img src="/images/openai-logo.png" alt="OpenAI Logo">
+    </div>
   </footer>
 </body>
 </html>
