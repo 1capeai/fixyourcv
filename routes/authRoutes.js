@@ -3,6 +3,7 @@ const { OAuth2Client } = require('google-auth-library');
 const passport = require('passport');
 const { register, login, logout } = require('../controllers/authController');
 const url = require('url');
+const User = require('../models/User'); // Ensure you have a User model defined
 
 const router = express.Router();
 
@@ -15,12 +16,12 @@ const oauth2Client = new OAuth2Client(
 
 // Render Login Page
 router.get('/login', (req, res) => {
-  res.render('login', { title: 'Login' }); // Renders the login page
+  res.render('login', { title: 'Login' });
 });
 
 // Render Registration Page
 router.get('/register', (req, res) => {
-  res.render('register', { title: 'Register' }); // Renders the register page
+  res.render('register', { title: 'Register' });
 });
 
 // Google OAuth Login
@@ -33,6 +34,7 @@ router.get(
 
 // Google OAuth Callback
 router.get('/google/callback', async (req, res, next) => {
+  console.log('OAuth callback hit');
   try {
     const q = url.parse(req.url, true).query;
 
@@ -52,25 +54,35 @@ router.get('/google/callback', async (req, res, next) => {
 
     const userInfo = userInfoResponse.data;
 
-    // Optionally, store user info in session or database
+    // Check if user exists or create a new user
+    let user = await User.findOne({ email: userInfo.email });
+    if (!user) {
+      user = new User({
+        name: userInfo.name,
+        email: userInfo.email,
+        googleId: userInfo.id,
+      });
+      await user.save();
+    }
+
+    // Store user info in session
     req.session.user = {
-      id: userInfo.id,
-      name: userInfo.name,
-      email: userInfo.email,
+      id: user._id,
+      name: user.name,
+      email: user.email,
       picture: userInfo.picture,
     };
 
-    console.log('User Info:', userInfo);
+    console.log('User Info:', user);
 
     // Redirect to dashboard or any authenticated page
     res.redirect('/dashboard');
   } catch (error) {
     console.error('Error in Google OAuth Callback:', error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send('Authentication failed');
   }
 });
 
-// Dashboard Route
 // Dashboard Route
 router.get('/dashboard', (req, res) => {
   if (req.session && req.session.user) {
@@ -85,7 +97,6 @@ router.get('/dashboard', (req, res) => {
   }
 });
 
-
 // Logout
 router.get('/logout', (req, res) => {
   req.logout((err) => {
@@ -94,7 +105,7 @@ router.get('/logout', (req, res) => {
       return res.status(500).send('Error logging out');
     }
     req.session.destroy(() => {
-      res.redirect('/auth/login'); // Redirect to login page
+      res.redirect('/auth/login');
     });
   });
 });

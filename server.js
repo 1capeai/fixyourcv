@@ -14,16 +14,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 app.use(express.static('public')); // Serve static files
 
-// Secure Session Middleware
 app.use(
   session({
     secret: process.env.JWT_SECRET || 'default_secret',
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // Only secure in production (HTTPS)
-      sameSite: 'strict', // Prevent CSRF (adjust to 'none' for cross-origin if necessary)
-      httpOnly: true, // Prevent JavaScript access to the cookie
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      httpOnly: true,
     },
   })
 );
