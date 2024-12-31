@@ -29,7 +29,7 @@
       padding: 20px 40px;
       background-color: #fe7941;
       color: #000000;
-      flex-wrap: wrap; /* Ensure the navbar items wrap on smaller screens */
+      flex-wrap: wrap;
     }
 
     .navbar .logo {
@@ -55,7 +55,13 @@
       display: flex;
       align-items: center;
       gap: 20px;
-      flex-wrap: wrap; /* Allow wrapping on smaller screens */
+      flex-wrap: wrap;
+    }
+
+    .email {
+      font-size: 16px;
+      font-weight: bold;
+      color: #000000;
     }
 
     .phone-number,
@@ -82,15 +88,15 @@
     /* Hero Section */
     .hero-section {
       display: flex;
-      flex-direction: column; /* Stack elements vertically */
+      flex-direction: column;
       align-items: center;
-      text-align: center; /* Center-align text for consistency */
+      text-align: center;
       padding: 60px 20px;
       background-color: #292929;
     }
 
     .hero-text {
-      max-width: 800px; /* Limit text width for better readability */
+      max-width: 800px;
       margin-bottom: 40px;
     }
 
@@ -102,7 +108,7 @@
     }
 
     .hero-text h1 span {
-      color: #fe7941; /* Highlight color */
+      color: #fe7941;
     }
 
     .hero-text p {
@@ -127,11 +133,66 @@
       background-color: #ff9e57;
     }
 
-    .hero-image img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    /* How Do We Help Section */
+    .help-section {
+      padding: 60px 20px;
+      background-color: #292929;
+      text-align: center;
+    }
+
+    .help-section h2 {
+      font-size: 48px;
+      color: #fe7941;
+      margin-bottom: 40px;
+    }
+
+    .help-steps {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .help-step {
+      background-color: #333333;
+      padding: 20px;
+      border-radius: 10px;
+      width: 250px;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    /* Card Section */
+    .card-section {
+      padding: 60px 20px;
+      background-color: #292929;
+    }
+
+    .card-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      min-width: 300px;
+      background-color: #333333;
+      border-radius: 10px;
+      padding: 20px;
+      color: #ffffff;
+      text-align: center;
+      font-size: 20px;
+      animation: scroll 10s linear infinite;
+    }
+
+    @keyframes scroll {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-100%);
+      }
     }
 
     /* Footer */
@@ -140,18 +201,6 @@
       padding: 20px;
       background-color: #292929;
       color: #ffffff;
-    }
-
-    .footer .powered {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .footer .powered img {
-      width: 30px;
-      height: auto;
     }
   </style>
 </head>
@@ -167,9 +216,8 @@
       </ul>
     </nav>
     <div class="navbar-right">
-      <div class="phone-number">
-        Call us: <span>27 682309495</span>
-      </div>
+      <div class="email">admin@fixyourcv.co.za</div>
+      <div class="phone-number">Call us: 27 682309495</div>
       <div class="day-display" id="current-day"></div>
       <button class="download-btn">Download the App</button>
     </div>
@@ -182,18 +230,34 @@
       <p>Create professional resumes that stand out and land your dream job.</p>
       <button class="primary-btn">Create New Resume</button>
     </div>
-    <div class="hero-image">
-      <img src="/images/professional-assistance.png" alt="Professional Assistance">
-    </div>
   </main>
+
+  <!-- How Do We Help Section -->
+  <section class="help-section">
+    <h2>How Do We Help?</h2>
+    <div class="help-steps">
+      <div class="help-step">1. Upload your CV to our system.</div>
+      <div class="help-step">2. AI analyzes your CV and scores it.</div>
+      <div class="help-step">3. AI suggests the best improvements.</div>
+      <div class="help-step">4. Experts validate and fine-tune your CV.</div>
+      <div class="help-step">5. Get a CV that gives you an edge.</div>
+    </div>
+  </section>
+
+  <!-- Cards Section -->
+  <section class="card-section">
+    <div class="card-container">
+      <div class="card">Typography</div>
+      <div class="card">Animation</div>
+      <div class="card">Branding</div>
+      <div class="card">Print Design</div>
+      <div class="card">Web Development</div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer class="footer">
     <p>&copy; 2024 fixyourCV. All rights reserved.</p>
-    <div class="powered">
-      <p>Powered by</p>
-      <img src="/images/openai-logo.png" alt="OpenAI Logo">
-    </div>
   </footer>
 
   <script>
