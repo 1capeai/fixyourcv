@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>fixyourCV - Stand Out & Get Your Job</title>
+  <meta name="description" content="We help you fix your CV with AI + Expert Validation. Create professional resumes that stand out and land your dream job.">
+  <meta name="keywords" content="CV, Resume Builder, AI Resume, Expert Resume, Professional CV, fixyourCV, Job Applications, Career Toolkit">
+  <meta name="author" content="fixyourCV">
+  <title>fixyourCV - We Help You Fix Your CV AI + Experts</title>
   <link rel="stylesheet" href="/css/styles.css">
   <style>
     /* General Styles */
@@ -25,28 +28,41 @@
       justify-content: space-between;
       align-items: center;
       padding: 20px 40px;
-      background-color: #292929;
-      color: #ffffff;
+      background-color: #fe7941;
+      color: #000000;
     }
 
     .navbar .logo {
-      font-size: 24px;
+      font-size: 32px;
       font-weight: bold;
     }
 
     .nav-links {
       display: flex;
       list-style: none;
-      gap: 20px;
+      gap: 30px;
+      align-items: center;
     }
 
     .nav-links li a {
-      font-size: 16px;
+      font-size: 18px;
+      font-weight: bold;
     }
 
-    .get-started-btn {
-      background-color: #ffffff;
-      color: #e92a2a;
+    .phone-number {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .day-display {
+      font-size: 18px;
+      font-weight: bold;
+      margin-left: 20px;
+    }
+
+    .download-btn {
+      background-color: #000000;
+      color: #ffffff;
       padding: 10px 20px;
       border: none;
       font-size: 16px;
@@ -55,8 +71,8 @@
       transition: background-color 0.3s ease;
     }
 
-    .get-started-btn:hover {
-      background-color: #f4c2c2;
+    .download-btn:hover {
+      background-color: #333333;
     }
 
     /* Hero Section */
@@ -73,59 +89,38 @@
     }
 
     .hero-text h1 {
-      font-size: 48px;
+      font-size: 64px;
       font-weight: bold;
       color: #ffffff;
       margin-bottom: 20px;
     }
 
-    .hero-text h1 span {
-      color: #8b45ff; /* Purple highlight color */
-    }
-
     .hero-text p {
-      font-size: 18px;
+      font-size: 24px;
       margin-bottom: 20px;
+      font-weight: bold;
     }
 
     .primary-btn {
-      background-color: #e92a2a;
-      color: #ffffff;
-      padding: 10px 20px;
+      background-color: #fe7941;
+      color: #000000;
+      padding: 15px 30px;
       border: none;
-      font-size: 16px;
+      font-size: 20px;
       cursor: pointer;
       border-radius: 5px;
       transition: background-color 0.3s ease;
+      font-weight: bold;
     }
 
     .primary-btn:hover {
-      background-color: #f56060;
+      background-color: #ff9e57;
     }
 
     .hero-image img {
-      width: 450px;
+      width: 500px;
       border-radius: 20px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    /* Services Section */
-    .services {
-      text-align: center;
-      padding: 40px;
-      background-color: #292929;
-    }
-
-    .services h2 {
-      font-size: 36px;
-      color: #ffffff;
-      margin-bottom: 20px;
-    }
-
-    .services p {
-      font-size: 18px;
-      margin-bottom: 20px;
-      color: #d1d1d1;
     }
 
     /* Footer */
@@ -160,27 +155,24 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
-    <button class="get-started-btn">Get Started</button>
+    <div class="phone-number">
+      Call us: <span>27 682309495</span>
+    </div>
+    <div class="day-display" id="current-day"></div>
+    <button class="download-btn">Download the App</button>
   </header>
 
   <!-- Hero Section -->
   <main class="hero-section">
     <div class="hero-text">
-      <h1>Stand <span>Out</span> & Get Your Job</h1>
-      <p>Thousands of job seekers have benefited from our professional resume builder by landing more interviews and being hired in a shorter amount of time.</p>
+      <h1>We Help You Fix Your CV <span>AI + Experts</span></h1>
+      <p>Create professional resumes that stand out and land your dream job.</p>
       <button class="primary-btn">Create New Resume</button>
     </div>
     <div class="hero-image">
       <img src="/images/professional-assistance.png" alt="Professional Assistance">
     </div>
   </main>
-
-  <!-- Services Section -->
-  <section class="services" id="services">
-    <h2>Our Services</h2>
-    <p>We use advanced AI to analyze CVs and integrate professional human validation. Our system leverages the best Large Language Models (LLMs) to give your CV the edge it needs to stand out.</p>
-    <p>Powered by OpenAI, we ensure your career toolkit is built with precision and innovation.</p>
-  </section>
 
   <!-- Footer -->
   <footer class="footer">
@@ -190,5 +182,12 @@
       <img src="/images/openai-logo.png" alt="OpenAI Logo">
     </div>
   </footer>
+
+  <script>
+    // Display the current day dynamically
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const today = new Date();
+    document.getElementById("current-day").textContent = `Today is: ${days[today.getDay()]}`;
+  </script>
 </body>
 </html>
