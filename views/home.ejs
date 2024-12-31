@@ -96,7 +96,7 @@
 
     .sliding-text span {
       display: inline-block;
-      animation: slide 10s linear infinite;
+      animation: slide 15s linear infinite;
     }
 
     @keyframes slide {
@@ -151,10 +151,40 @@
       background-color: #ff9e57;
     }
 
+    /* Steps Section */
+    .steps-section {
+      padding: 60px 20px;
+      background-color: #333333;
+      text-align: center;
+    }
+
+    .steps-section h2 {
+      font-size: 48px;
+      color: #fe7941;
+      margin-bottom: 40px;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .step {
+      background-color: #444444;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      font-size: 22px;
+      color: #ffffff;
+      text-align: center;
+    }
+
     /* Card Section */
     .card-section {
       padding: 60px 20px;
-      background-color: #333333;
+      background-color: #292929;
       overflow: hidden;
       position: relative;
     }
@@ -162,7 +192,7 @@
     .card-container {
       display: flex;
       gap: 20px;
-      animation: move-cards 15s linear infinite;
+      animation: move-cards 30s linear infinite;
     }
 
     @keyframes move-cards {
@@ -238,14 +268,31 @@
     </div>
   </main>
 
+  <!-- Steps Section -->
+  <section class="steps-section">
+    <h2>How Our Service Works</h2>
+    <div class="steps">
+      <div class="step">1. Upload Your CV</div>
+      <div class="step">2. AI Analyzes & Scores It</div>
+      <div class="step">3. Receive Detailed Suggestions</div>
+      <div class="step">4. Expert Edits & Validation</div>
+      <div class="step">5. Get a Polished CV and Cover Letter</div>
+    </div>
+  </section>
+
   <!-- Card Section -->
   <section class="card-section">
     <div class="card-container">
       <div class="card">Expert CV Reviews</div>
       <div class="card">Top Cover Letters</div>
-      <div class="card">AI Analysis</div>
+      <div class="card">AI-Powered Insights</div>
       <div class="card">Job Application Tips</div>
+      <div class="card">Professional Formatting</div>
       <div class="card">Personalized Feedback</div>
+      <div class="card">Mock Interviews</div>
+      <div class="card">Career Growth Tools</div>
+      <div class="card">Job Market Trends</div>
+      <div class="card">One-on-One Consulting</div>
     </div>
   </section>
 
