@@ -21,6 +21,27 @@
       color: inherit;
     }
 
+    /* Header Section */
+    .header-top {
+      background-color: #000000;
+      color: #ffffff;
+      padding: 10px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .header-top .contact-info {
+      display: flex;
+      gap: 20px;
+    }
+
+    .header-top .contact-info span {
+      font-size: 18px;
+    }
+
     /* Navbar */
     .navbar {
       display: flex;
@@ -47,30 +68,6 @@
     }
 
     .nav-links li a {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .navbar-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .email {
-      font-size: 24px; /* Increased font size */
-      font-weight: bold;
-      color: #000000;
-    }
-
-    .phone-number {
-      font-size: 24px; /* Increased font size */
-      font-weight: bold;
-      color: #000000;
-    }
-
-    .day-display {
       font-size: 18px;
       font-weight: bold;
     }
@@ -138,52 +135,56 @@
       background-color: #ff9e57;
     }
 
-    /* How Do We Help Section */
-    .help-section {
+    /* How It Works Section */
+    .how-it-works {
       padding: 60px 20px;
-      background-color: #292929;
       text-align: center;
+      background-color: #333333;
     }
 
-    .help-section h2 {
+    .how-it-works h2 {
       font-size: 48px;
       color: #fe7941;
       margin-bottom: 40px;
     }
 
-    .help-steps {
+    .how-it-works .steps {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 30px;
     }
 
-    .help-step {
-      background-color: #333333;
+    .how-it-works .step {
+      background-color: #444444;
       padding: 20px;
       border-radius: 10px;
       width: 250px;
       text-align: center;
       font-size: 20px;
+      color: #ffffff;
     }
 
-    /* Cover Letter Section */
-    .cover-letter-section {
+    /* Testimonials Section */
+    .testimonials {
       padding: 60px 20px;
-      background-color: #333333;
       text-align: center;
+      background-color: #292929;
     }
 
-    .cover-letter-section h2 {
+    .testimonials h2 {
       font-size: 48px;
       color: #fe7941;
       margin-bottom: 20px;
     }
 
-    .cover-letter-section p {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: #ffffff;
+    .testimonials .testimonial {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #333333;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 18px;
     }
 
     /* Footer */
@@ -203,6 +204,15 @@
   </style>
 </head>
 <body>
+  <!-- Header Top -->
+  <div class="header-top">
+    <div class="contact-info">
+      <span>Email: admin@fixyourcv.co.za</span>
+      <span>Call: 27 682309495</span>
+    </div>
+    <div class="day-display" id="current-day"></div>
+  </div>
+
   <!-- Navbar -->
   <header class="navbar">
     <div class="logo">fixyourCV</div>
@@ -213,12 +223,7 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
-    <div class="navbar-right">
-      <div class="email">admin@fixyourcv.co.za</div>
-      <div class="phone-number">Call us: 27 682309495</div>
-      <div class="day-display" id="current-day"></div>
-      <button class="download-btn">Download the App</button>
-    </div>
+    <button class="download-btn">Download the App</button>
   </header>
 
   <!-- Hero Section -->
@@ -230,24 +235,26 @@
     </div>
   </main>
 
-  <!-- How Do We Help Section -->
-  <section class="help-section">
-    <h2>How Do We Help?</h2>
-    <div class="help-steps">
-      <div class="help-step">1. Upload your CV to our system.</div>
-      <div class="help-step">2. AI analyzes your CV and scores it.</div>
-      <div class="help-step">3. AI suggests the best improvements.</div>
-      <div class="help-step">4. Experts validate and fine-tune your CV.</div>
-      <div class="help-step">5. Get a CV and cover letter that give you an edge.</div>
+  <!-- How It Works Section -->
+  <section class="how-it-works">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">1. Upload your CV</div>
+      <div class="step">2. AI analyzes your CV</div>
+      <div class="step">3. Experts review and polish</div>
+      <div class="step">4. Receive a top-notch CV and cover letter</div>
     </div>
   </section>
 
-  <!-- Cover Letter Section -->
-  <section class="cover-letter-section">
-    <h2>Top Cover Letters</h2>
-    <p>We leverage Google models and ChatGPT powered by OpenAI to create the best cover letters.</p>
-    <p>Our top-tier cover letters are designed to make you stand out and impress employers.</p>
-    <p>Try our service today and elevate your job applications!</p>
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <h2>What Our Clients Say</h2>
+    <div class="testimonial">
+      "fixyourCV helped me land my dream job! The process was smooth, and the results were outstanding." - John D.
+    </div>
+    <div class="testimonial">
+      "The cover letter was exceptional. I received multiple interview invites within a week!" - Sarah K.
+    </div>
   </section>
 
   <!-- Footer -->
