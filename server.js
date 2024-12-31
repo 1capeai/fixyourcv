@@ -37,7 +37,7 @@ connectDB();
 // Mount Auth Routes
 app.use('/auth', authRoutes);
 
-// Add the dashboard route directly if needed
+// Add the dashboard route
 app.get('/dashboard', (req, res) => {
   if (req.session && req.session.user) {
     res.render('dashboard', {

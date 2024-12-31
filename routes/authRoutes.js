@@ -16,12 +16,12 @@ const oauth2Client = new OAuth2Client(
 
 // Render Login Page
 router.get('/login', (req, res) => {
-  res.render('login', { title: 'Login' });
+  res.render('login', { title: 'Login', error: null });
 });
 
 // Render Registration Page
 router.get('/register', (req, res) => {
-  res.render('register', { title: 'Register' });
+  res.render('register', { title: 'Register', error: null });
 });
 
 // Google OAuth Login
@@ -33,14 +33,14 @@ router.get(
 );
 
 // Google OAuth Callback
-router.get('/google/callback', async (req, res, next) => {
+router.get('/google/callback', async (req, res) => {
   console.log('OAuth callback hit');
   try {
     const q = url.parse(req.url, true).query;
 
     if (q.error) {
       console.error('OAuth Error:', q.error);
-      return res.status(400).send(`OAuth Error: ${q.error}`);
+      return res.status(400).render('login', { title: 'Login', error: `OAuth Error: ${q.error}` });
     }
 
     // Exchange code for tokens
@@ -70,16 +70,16 @@ router.get('/google/callback', async (req, res, next) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      picture: userInfo.picture,
+      picture: userInfo.picture || null, // Optional profile picture
     };
 
     console.log('User Info:', user);
 
-    // Redirect to dashboard or any authenticated page
+    // Redirect to dashboard
     res.redirect('/dashboard');
   } catch (error) {
     console.error('Error in Google OAuth Callback:', error);
-    res.status(500).send('Authentication failed');
+    res.status(500).render('500', { title: '500 - Internal Server Error' });
   }
 });
 
@@ -90,7 +90,7 @@ router.get('/dashboard', (req, res) => {
       title: 'Dashboard',
       name: req.session.user.name,
       email: req.session.user.email,
-      picture: req.session.user.picture,
+      picture: req.session.user.picture || '/images/default-avatar.png', // Default image fallback
     });
   } else {
     res.redirect('/auth/login');
@@ -110,13 +110,34 @@ router.get('/logout', (req, res) => {
   });
 });
 
-// Custom Authentication: Registration
-router.post('/register', register);
+// Custom Registration Route
+router.post('/register', async (req, res) => {
+  try {
+    await register(req, res);
+  } catch (error) {
+    console.error('Error during registration:', error);
+    res.status(400).render('register', { title: 'Register', error: error.message });
+  }
+});
 
-// Custom Authentication: Login
-router.post('/login', login);
+// Custom Login Route
+router.post('/login', async (req, res) => {
+  try {
+    await login(req, res);
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(400).render('login', { title: 'Login', error: error.message });
+  }
+});
 
-// Custom Authentication: Logout
-router.post('/logout', logout);
+// Custom Logout Route
+router.post('/logout', async (req, res) => {
+  try {
+    await logout(req, res);
+  } catch (error) {
+    console.error('Error during logout:', error);
+    res.status(500).send('Error logging out');
+  }
+});
 
 module.exports = router;
