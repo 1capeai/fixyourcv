@@ -7,7 +7,6 @@
   <meta name="keywords" content="CV, Resume Builder, AI Resume, Expert Resume, Professional CV, fixyourCV, Job Applications, Career Toolkit">
   <meta name="author" content="fixyourCV">
   <title>fixyourCV - We Help You Fix Your CV AI + Experts</title>
-  <link rel="stylesheet" href="/css/styles.css">
   <style>
     /* General Styles */
     body {
@@ -30,6 +29,7 @@
       padding: 20px 40px;
       background-color: #fe7941;
       color: #000000;
+      flex-wrap: wrap; /* Ensure the navbar items wrap on smaller screens */
     }
 
     .navbar .logo {
@@ -41,6 +41,8 @@
       display: flex;
       list-style: none;
       gap: 30px;
+      margin: 0;
+      padding: 0;
       align-items: center;
     }
 
@@ -53,13 +55,10 @@
       display: flex;
       align-items: center;
       gap: 20px;
+      flex-wrap: wrap; /* Allow wrapping on smaller screens */
     }
 
-    .phone-number {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
+    .phone-number,
     .day-display {
       font-size: 18px;
       font-weight: bold;
@@ -83,15 +82,16 @@
     /* Hero Section */
     .hero-section {
       display: flex;
+      flex-direction: column; /* Stack elements vertically */
       align-items: center;
-      justify-content: space-between;
-      padding: 60px;
-      gap: 20px;
+      text-align: center; /* Center-align text for consistency */
+      padding: 60px 20px;
       background-color: #292929;
     }
 
     .hero-text {
-      max-width: 50%;
+      max-width: 800px; /* Limit text width for better readability */
+      margin-bottom: 40px;
     }
 
     .hero-text h1 {
@@ -99,6 +99,10 @@
       font-weight: bold;
       color: #ffffff;
       margin-bottom: 20px;
+    }
+
+    .hero-text h1 span {
+      color: #fe7941; /* Highlight color */
     }
 
     .hero-text p {
@@ -124,7 +128,8 @@
     }
 
     .hero-image img {
-      width: 450px;
+      max-width: 100%;
+      height: auto;
       border-radius: 20px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
