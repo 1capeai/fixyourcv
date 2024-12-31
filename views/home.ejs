@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="We help you fix your CV with AI + Expert Validation. Create professional resumes that stand out and land your dream job.">
-  <meta name="keywords" content="CV, Resume Builder, AI Resume, Expert Resume, Professional CV, fixyourCV, Job Applications, Career Toolkit">
+  <meta name="description" content="We help you fix your CV with AI + Expert Validation. Create professional resumes and cover letters that stand out and land your dream job.">
+  <meta name="keywords" content="CV, Cover Letter, Resume Builder, AI Resume, Expert Resume, Professional CV, fixyourCV, Job Applications, Career Toolkit">
   <meta name="author" content="fixyourCV">
   <title>fixyourCV - We Help You Fix Your CV AI + Experts</title>
   <style>
@@ -59,12 +59,17 @@
     }
 
     .email {
-      font-size: 16px;
+      font-size: 24px; /* Increased font size */
       font-weight: bold;
       color: #000000;
     }
 
-    .phone-number,
+    .phone-number {
+      font-size: 24px; /* Increased font size */
+      font-weight: bold;
+      color: #000000;
+    }
+
     .day-display {
       font-size: 18px;
       font-weight: bold;
@@ -162,37 +167,23 @@
       font-size: 20px;
     }
 
-    /* Card Section */
-    .card-section {
+    /* Cover Letter Section */
+    .cover-letter-section {
       padding: 60px 20px;
-      background-color: #292929;
-    }
-
-    .card-container {
-      display: flex;
-      overflow-x: auto;
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .card {
-      min-width: 300px;
       background-color: #333333;
-      border-radius: 10px;
-      padding: 20px;
-      color: #ffffff;
       text-align: center;
-      font-size: 20px;
-      animation: scroll 10s linear infinite;
     }
 
-    @keyframes scroll {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(-100%);
-      }
+    .cover-letter-section h2 {
+      font-size: 48px;
+      color: #fe7941;
+      margin-bottom: 20px;
+    }
+
+    .cover-letter-section p {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #ffffff;
     }
 
     /* Footer */
@@ -201,6 +192,13 @@
       padding: 20px;
       background-color: #292929;
       color: #ffffff;
+    }
+
+    .footer .powered {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
     }
   </style>
 </head>
@@ -227,8 +225,8 @@
   <main class="hero-section">
     <div class="hero-text">
       <h1>We Help You Fix Your CV <span>AI + Experts</span></h1>
-      <p>Create professional resumes that stand out and land your dream job.</p>
-      <button class="primary-btn">Create New Resume</button>
+      <p>Create professional resumes and cover letters that stand out and land your dream job.</p>
+      <button class="primary-btn">Polish Your CV</button>
     </div>
   </main>
 
@@ -240,24 +238,25 @@
       <div class="help-step">2. AI analyzes your CV and scores it.</div>
       <div class="help-step">3. AI suggests the best improvements.</div>
       <div class="help-step">4. Experts validate and fine-tune your CV.</div>
-      <div class="help-step">5. Get a CV that gives you an edge.</div>
+      <div class="help-step">5. Get a CV and cover letter that give you an edge.</div>
     </div>
   </section>
 
-  <!-- Cards Section -->
-  <section class="card-section">
-    <div class="card-container">
-      <div class="card">Typography</div>
-      <div class="card">Animation</div>
-      <div class="card">Branding</div>
-      <div class="card">Print Design</div>
-      <div class="card">Web Development</div>
-    </div>
+  <!-- Cover Letter Section -->
+  <section class="cover-letter-section">
+    <h2>Top Cover Letters</h2>
+    <p>We leverage Google models and ChatGPT powered by OpenAI to create the best cover letters.</p>
+    <p>Our top-tier cover letters are designed to make you stand out and impress employers.</p>
+    <p>Try our service today and elevate your job applications!</p>
   </section>
 
   <!-- Footer -->
   <footer class="footer">
     <p>&copy; 2024 fixyourCV. All rights reserved.</p>
+    <div class="powered">
+      <p>Powered by</p>
+      <img src="/images/openai-logo.png" alt="OpenAI Logo">
+    </div>
   </footer>
 
   <script>
