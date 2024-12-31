@@ -3,10 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
+  <title>FixYourCV</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #292929;
+      color: white;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #292929;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e92a2a;
+    }
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+    }
+    .hero-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 80px 40px;
+    }
+    .hero-text {
+      max-width: 50%;
+    }
+    .hero-text h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #e92a2a;
+    }
+    .hero-text p {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .hero-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #e92a2a;
+      color: white;
+      font-size: 18px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .hero-image {
+      max-width: 40%;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #292929;
+      color: white;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to FixYourCV!</h1>
-  <p>This is your homepage.</p>
+  <!-- Header Section -->
+  <header>
+    <div class="logo">FixYourCV</div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-text">
+      <h1>Stand Out & Get Your Job</h1>
+      <p>
+        Thousands of job seekers have benefited from FixYourCV's professional resume
+        builder by landing more interviews and getting hired in a shorter amount of time.
+      </p>
+      <a href="#" class="hero-button">Create Your Resume</a>
+    </div>
+    <div>
+      <img
+        src="/images/hero-image.png"
+        alt="FixYourCV Hero Image"
+        class="hero-image"
+      />
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>© 2024 FixYourCV. All rights reserved.</p>
+  </footer>
 </body>
 </html>
