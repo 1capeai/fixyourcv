@@ -15,6 +15,13 @@
       <h1>Register</h1>
     </div>
 
+    <!-- Error Message -->
+    <% if (error) { %>
+      <div class="error-message">
+        <p><%= error %></p>
+      </div>
+    <% } %>
+
     <!-- Registration Form -->
     <form class="form-container" action="/auth/register" method="POST">
       <!-- Name Input -->

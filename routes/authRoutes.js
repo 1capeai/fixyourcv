@@ -61,6 +61,7 @@ router.get('/google/callback', async (req, res) => {
         name: userInfo.name,
         email: userInfo.email,
         googleId: userInfo.id,
+        picture: userInfo.picture,
       });
       await user.save();
     }
@@ -70,7 +71,7 @@ router.get('/google/callback', async (req, res) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      picture: userInfo.picture || null, // Optional profile picture
+      picture: userInfo.picture || '/images/default-avatar.png', // Optional profile picture
     };
 
     console.log('User Info:', user);
