@@ -5,6 +5,7 @@ const connectDB = require('./config/db'); // Ensure this file exists and connect
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 const MongoStore = require('connect-mongo');
+const cors = require('cors'); // Import CORS middleware
 
 dotenv.config();
 
@@ -16,20 +17,28 @@ app.use(express.json()); // Parse JSON payloads
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 app.use(express.static('public')); // Serve static files from the "public" folder
 
+// CORS Configuration
+app.use(
+  cors({
+    origin: ['https://fixyourcv.onrender.com', 'http://localhost:19006'], // Add your app's domain and local development
+    credentials: true, // Allow cookies to be sent with requests
+  })
+);
+
 // Session Configuration
 app.use(
   session({
-    secret: process.env.JWT_SECRET || 'default_secret', // Secret key for signing the session ID cookie
-    resave: false, // Avoid resaving unchanged sessions
-    saveUninitialized: false, // Prevent saving uninitialized sessions
+    secret: process.env.JWT_SECRET || 'default_secret',
+    resave: false,
+    saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.DB_URL, // MongoDB connection string for session storage
+      mongoUrl: process.env.DB_URL,
     }),
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-      sameSite: 'lax', // Allows session persistence during redirects (ideal for Google OAuth)
-      httpOnly: true, // Prevent client-side access to cookies for security
-      maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies only in production
+      sameSite: 'none', // Required for cross-origin requests
+      httpOnly: true, // Prevent client-side access to cookies
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
     },
   })
 );
