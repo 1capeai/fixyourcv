@@ -74,16 +74,11 @@ router.get('/google/callback', async (req, res) => {
       picture: userInfo.picture || '/images/default-avatar.png',
     };
 
-    console.log('Session after Google login:', req.session); // Debug log
+    console.log('Session after Google login:', req.session);
 
-    // Force session save and redirect
-    req.session.save((err) => {
-      if (err) {
-        console.error('Error saving session:', err);
-        return res.status(500).render('500', { title: '500 - Internal Server Error' });
-      }
-      res.redirect('/dashboard');
-    });
+    // Redirect to mobile deep link or dashboard
+    const redirectUri = `${process.env.REDIRECT_URI}?token=${req.session.user.id}`;
+    return res.redirect(redirectUri); // Redirect back to mobile app
   } catch (error) {
     console.error('Error in Google OAuth Callback:', error);
     res.status(500).render('500', { title: '500 - Internal Server Error' });
@@ -119,7 +114,6 @@ router.get('/logout', (req, res) => {
     });
   });
 });
-
 
 // Custom Registration Route
 router.post('/register', async (req, res) => {

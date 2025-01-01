@@ -30,7 +30,16 @@ exports.register = async (req, res) => {
     console.log('User session after registration:', req.session.user); // Debugging session
 
     // Redirect to dashboard
-    return res.redirect('/dashboard');
+    req.session.save((err) => {
+      if (err) {
+        console.error('Error saving session:', err);
+        return res.status(500).render('register', {
+          title: 'Register',
+          error: 'Session saving failed. Please try again.',
+        });
+      }
+      return res.redirect('/dashboard');
+    });
   } catch (error) {
     console.error('Error during registration:', error.message);
     return res.status(400).render('register', {
@@ -80,6 +89,49 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.googleLoginCallback = async (req, res) => {
+  try {
+    // Get user information from Google OAuth callback
+    const { userInfo } = req; // Assuming `passport` middleware injects the Google user data
+
+    let user = await User.findOne({ email: userInfo.email });
+    if (!user) {
+      // If user doesn't exist, create a new user
+      user = new User({
+        name: userInfo.name,
+        email: userInfo.email,
+        googleId: userInfo.googleId,
+        picture: userInfo.picture,
+      });
+      await user.save();
+    }
+
+    // Store user info in session
+    req.session.user = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      picture: user.picture,
+    };
+
+    console.log('Session after Google login:', req.session);
+
+    // Redirect to the dashboard
+    req.session.save((err) => {
+      if (err) {
+        console.error('Error saving session:', err);
+        return res.status(500).send('Failed to save session');
+      }
+
+      // Redirect back to mobile app deep link or dashboard
+      const redirectUri = `${process.env.REDIRECT_URI}?token=${jwt.sign({ id: user._id }, process.env.JWT_SECRET)}`;
+      res.redirect(redirectUri);
+    });
+  } catch (error) {
+    console.error('Error in Google OAuth callback:', error);
+    res.status(500).send('Google login failed');
+  }
+};
 
 exports.logout = (req, res) => {
   req.logout((err) => {
@@ -88,6 +140,7 @@ exports.logout = (req, res) => {
       return res.status(500).send('Error logging out');
     }
     req.session.destroy(() => {
+      res.clearCookie('connect.sid'); // Clear session cookie
       res.redirect('/auth/login'); // Redirect to login after logout
     });
   });
