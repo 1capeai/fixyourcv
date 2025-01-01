@@ -3,7 +3,7 @@ const { OAuth2Client } = require('google-auth-library');
 const passport = require('passport');
 const { register, login, logout } = require('../controllers/authController');
 const url = require('url');
-const User = require('../models/User'); // Ensure you have a User model defined
+const User = require('../models/User');
 
 const router = express.Router();
 
@@ -28,9 +28,11 @@ router.get('/register', (req, res) => {
 router.get(
   '/google',
   passport.authenticate('google', {
-    scope: ['profile', 'email'], // Request profile and email access
+    scope: ['profile', 'email'],
   })
 );
+
+// Google OAuth Callback
 router.get('/google/callback', async (req, res) => {
   console.log('OAuth callback hit');
   try {
@@ -63,6 +65,7 @@ router.get('/google/callback', async (req, res) => {
 
     console.log('Session after Google login:', req.session);
 
+    // Redirect back to the app with token for deep linking
     const redirectUri = `${process.env.REDIRECT_URI}?token=${tokens.id_token}`;
     return res.redirect(redirectUri);
   } catch (error) {
@@ -71,10 +74,9 @@ router.get('/google/callback', async (req, res) => {
   }
 });
 
-
 // Dashboard Route
 router.get('/dashboard', (req, res) => {
-  console.log('Session during dashboard access:', req.session); // Debugging log
+  console.log('Session during dashboard access:', req.session);
   if (req.session && req.session.user) {
     res.render('dashboard', {
       title: 'Dashboard',
@@ -84,7 +86,7 @@ router.get('/dashboard', (req, res) => {
     });
   } else {
     console.log('No session found, redirecting to login.');
-    res.redirect('/auth/login'); // Redirect if session is missing
+    res.redirect('/auth/login');
   }
 });
 
@@ -96,8 +98,8 @@ router.get('/logout', (req, res) => {
       return res.status(500).send('Error logging out');
     }
     req.session.destroy(() => {
-      res.clearCookie('connect.sid'); // Clear session cookie
-      res.redirect('/auth/login'); // Redirect to login page
+      res.clearCookie('connect.sid');
+      res.redirect('/auth/login');
     });
   });
 });
