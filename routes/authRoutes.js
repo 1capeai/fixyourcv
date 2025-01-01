@@ -4,6 +4,7 @@ const passport = require('passport');
 const { register, login, logout } = require('../controllers/authController');
 const url = require('url');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
