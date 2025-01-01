@@ -1,29 +1,32 @@
 const express = require('express');
 const session = require('express-session');
-const passport = require('./config/passport'); // Ensure this file exists and is correctly configured
-const connectDB = require('./config/db'); // Ensure this file exists and connects MongoDB
+const passport = require('./config/passport');
+const connectDB = require('./config/db');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 const MongoStore = require('connect-mongo');
-const cors = require('cors'); // Import CORS middleware
+const cors = require('cors');
 
 dotenv.config();
 
 const app = express();
 
-// Middleware
-app.set('view engine', 'ejs'); // Set EJS as the view engine
-app.use(express.json()); // Parse JSON payloads
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
-app.use(express.static('public')); // Serve static files from the "public" folder
-
 // CORS Configuration
 app.use(
   cors({
-    origin: ['https://fixyourcv.onrender.com', 'http://localhost:19006'], // Add your app's domain and local development
+    origin: [
+      'https://fixyourcv.onrender.com', // Add your frontend domain here
+      'http://localhost:19006', // Expo or local development
+    ],
     credentials: true, // Allow cookies to be sent with requests
   })
 );
+
+// Middleware
+app.set('view engine', 'ejs');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 // Session Configuration
 app.use(
@@ -35,9 +38,9 @@ app.use(
       mongoUrl: process.env.DB_URL,
     }),
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // Use secure cookies only in production
-      sameSite: 'none', // Required for cross-origin requests
-      httpOnly: true, // Prevent client-side access to cookies
+      secure: process.env.NODE_ENV === 'production', // Secure cookies for production
+      sameSite: 'none', // Allow cookies in cross-origin requests
+      httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     },
   })
@@ -60,11 +63,11 @@ app.get('/dashboard', (req, res) => {
       title: 'Dashboard',
       name: req.session.user.name,
       email: req.session.user.email,
-      picture: req.session.user.picture || '/images/default-avatar.png', // Default avatar fallback
+      picture: req.session.user.picture || '/images/default-avatar.png',
     });
   } else {
     console.log('Unauthorized access to dashboard. Redirecting to login.');
-    res.redirect('/auth/login'); // Redirect to login if not authenticated
+    res.redirect('/auth/login');
   }
 });
 
