@@ -66,22 +66,29 @@ router.get('/google/callback', async (req, res) => {
       await user.save();
     }
 
-    // Generate a token
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: '1d' }
-    );
+    // Store user info in session
+    req.session.user = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      picture: userInfo.picture || '/images/default-avatar.png',
+    };
 
-    // Redirect to app's deep link with token
-    const redirectUri = `${process.env.REDIRECT_URI}?token=${token}`;
-    res.redirect(redirectUri);
+    console.log('Session after Google login:', req.session); // Debug log
+
+    // Force session save and redirect
+    req.session.save((err) => {
+      if (err) {
+        console.error('Error saving session:', err);
+        return res.status(500).render('500', { title: '500 - Internal Server Error' });
+      }
+      res.redirect('/dashboard');
+    });
   } catch (error) {
     console.error('Error in Google OAuth Callback:', error);
     res.status(500).render('500', { title: '500 - Internal Server Error' });
   }
 });
-
 
 // Dashboard Route
 router.get('/dashboard', (req, res) => {
