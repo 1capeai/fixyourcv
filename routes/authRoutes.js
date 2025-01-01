@@ -24,6 +24,7 @@ router.get('/register', (req, res) => {
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback', async (req, res) => {
+  console.log('OAuth callback hit');
   try {
     const { tokens } = await oauth2Client.getToken(req.query.code);
     oauth2Client.setCredentials(tokens);
@@ -45,17 +46,22 @@ router.get('/google/callback', async (req, res) => {
       await user.save();
     }
 
+    // Generate JWT for deep linking
     const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
       expiresIn: '1d',
     });
 
+    console.log('Redirecting to:', `${process.env.REDIRECT_URI}?token=${token}`);
+
+    // Redirect back to app with token
     const redirectUri = `${process.env.REDIRECT_URI}?token=${token}`;
-    res.redirect(redirectUri);
+    return res.redirect(redirectUri);
   } catch (error) {
-    console.error('Error in Google OAuth callback:', error.message);
-    res.status(500).json({ error: 'Google login failed.' });
+    console.error('Error in Google OAuth Callback:', error.message);
+    res.status(500).render('500', { title: 'Internal Server Error' });
   }
 });
+
 
 router.post('/register', register);
 router.post('/login', login);
