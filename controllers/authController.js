@@ -61,17 +61,23 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: 'An error occurred during login. Please try again.' });
   }
 };
-
 exports.googleLoginCallback = async (req, res) => {
   try {
-    const { userInfo } = req;
+    const { tokens } = await oauth2Client.getToken(req.query.code);
+    oauth2Client.setCredentials(tokens);
+
+    const userInfoResponse = await oauth2Client.request({
+      url: 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json',
+    });
+
+    const userInfo = userInfoResponse.data;
 
     let user = await User.findOne({ email: userInfo.email });
     if (!user) {
       user = new User({
         name: userInfo.name,
         email: userInfo.email,
-        googleId: userInfo.googleId,
+        googleId: userInfo.id,
         picture: userInfo.picture,
       });
       await user.save();
@@ -82,10 +88,12 @@ exports.googleLoginCallback = async (req, res) => {
     });
 
     const redirectUri = `${process.env.REDIRECT_URI}?token=${token}`;
+    console.log('Redirecting to:', redirectUri);
+
     return res.redirect(redirectUri);
   } catch (error) {
     console.error('Error in Google OAuth callback:', error.message);
-    res.status(500).json({ error: 'Google login failed. Please try again.' });
+    res.status(500).send('Google login failed. Please try again.');
   }
 };
 
