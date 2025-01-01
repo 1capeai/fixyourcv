@@ -7,34 +7,23 @@ const User = require('../models/User');
 
 const router = express.Router();
 
-// Google OAuth Client Setup
 const oauth2Client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
   process.env.GOOGLE_REDIRECT_URI
 );
 
-// Render Login Page
 router.get('/login', (req, res) => {
   res.render('login', { title: 'Login', error: null });
 });
 
-// Render Registration Page
 router.get('/register', (req, res) => {
   res.render('register', { title: 'Register', error: null });
 });
 
-// Google OAuth Login
-router.get(
-  '/google',
-  passport.authenticate('google', {
-    scope: ['profile', 'email'],
-  })
-);
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// Google OAuth Callback
 router.get('/google/callback', async (req, res) => {
-  console.log('OAuth callback hit');
   try {
     const { tokens } = await oauth2Client.getToken(req.query.code);
     oauth2Client.setCredentials(tokens);
@@ -56,82 +45,20 @@ router.get('/google/callback', async (req, res) => {
       await user.save();
     }
 
-    req.session.user = {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      picture: user.picture,
-    };
-
-    console.log('Session after Google login:', req.session);
-
-    // Redirect back to the app with token for deep linking
-    const redirectUri = `${process.env.REDIRECT_URI}?token=${tokens.id_token}`;
-    return res.redirect(redirectUri);
-  } catch (error) {
-    console.error('Error in Google OAuth Callback:', error);
-    res.status(500).render('500', { title: 'Internal Server Error' });
-  }
-});
-
-// Dashboard Route
-router.get('/dashboard', (req, res) => {
-  console.log('Session during dashboard access:', req.session);
-  if (req.session && req.session.user) {
-    res.render('dashboard', {
-      title: 'Dashboard',
-      name: req.session.user.name,
-      email: req.session.user.email,
-      picture: req.session.user.picture || '/images/default-avatar.png',
+    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
+      expiresIn: '1d',
     });
-  } else {
-    console.log('No session found, redirecting to login.');
-    res.redirect('/auth/login');
-  }
-});
 
-// Logout Route
-router.get('/logout', (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      console.error('Error logging out:', err);
-      return res.status(500).send('Error logging out');
-    }
-    req.session.destroy(() => {
-      res.clearCookie('connect.sid');
-      res.redirect('/auth/login');
-    });
-  });
-});
-
-// Custom Registration Route
-router.post('/register', async (req, res) => {
-  try {
-    await register(req, res);
+    const redirectUri = `${process.env.REDIRECT_URI}?token=${token}`;
+    res.redirect(redirectUri);
   } catch (error) {
-    console.error('Error during registration:', error);
-    res.status(400).render('register', { title: 'Register', error: error.message });
+    console.error('Error in Google OAuth callback:', error.message);
+    res.status(500).json({ error: 'Google login failed.' });
   }
 });
 
-// Custom Login Route
-router.post('/login', async (req, res) => {
-  try {
-    await login(req, res);
-  } catch (error) {
-    console.error('Error during login:', error);
-    res.status(400).render('login', { title: 'Login', error: error.message });
-  }
-});
-
-// Custom Logout Route
-router.post('/logout', async (req, res) => {
-  try {
-    await logout(req, res);
-  } catch (error) {
-    console.error('Error during logout:', error);
-    res.status(500).send('Error logging out');
-  }
-});
+router.post('/register', register);
+router.post('/login', login);
+router.post('/logout', logout);
 
 module.exports = router;
