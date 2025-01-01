@@ -5,6 +5,7 @@ const connectDB = require('./config/db'); // Ensure this file exists and connect
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 
+const MongoStore = require('connect-mongo');
 dotenv.config();
 const app = express();
 
@@ -14,19 +15,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 app.use(express.static('public')); // Serve static files from the "public" folder
 
-// Session Configuration
 app.use(
   session({
-    secret: process.env.JWT_SECRET || 'default_secret',
-    resave: false,
-    saveUninitialized: true,
+    secret: process.env.JWT_SECRET || 'default_secret', // Secret key for signing the session ID cookie
+    resave: false, // Avoid resaving unchanged sessions
+    saveUninitialized: false, // Prevent saving uninitialized sessions
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_URL, // MongoDB connection string for session storage
+    }),
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // Secure cookies in production
-      sameSite: 'strict', // CSRF protection
-      httpOnly: true, // Prevent client-side JavaScript from accessing cookies
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+      sameSite: 'lax', // Allows session persistence during redirects (ideal for Google OAuth)
+      httpOnly: true, // Prevent client-side access to cookies for security
+      maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
     },
   })
 );
+
+
 
 // Passport Middleware
 app.use(passport.initialize());

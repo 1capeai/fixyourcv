@@ -66,39 +66,40 @@ router.get('/google/callback', async (req, res) => {
       await user.save();
     }
 
-    // Store user info in session
-    req.session.user = {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      picture: userInfo.picture || '/images/default-avatar.png', // Optional profile picture
-    };
+    // Generate a token
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
 
-    console.log('User Info:', user);
-
-    // Redirect to dashboard
-    res.redirect('/dashboard');
+    // Redirect to app's deep link with token
+    const redirectUri = `${process.env.REDIRECT_URI}?token=${token}`;
+    res.redirect(redirectUri);
   } catch (error) {
     console.error('Error in Google OAuth Callback:', error);
     res.status(500).render('500', { title: '500 - Internal Server Error' });
   }
 });
 
+
 // Dashboard Route
 router.get('/dashboard', (req, res) => {
+  console.log('Session during dashboard access:', req.session); // Debugging log
   if (req.session && req.session.user) {
     res.render('dashboard', {
       title: 'Dashboard',
       name: req.session.user.name,
       email: req.session.user.email,
-      picture: req.session.user.picture || '/images/default-avatar.png', // Default image fallback
+      picture: req.session.user.picture || '/images/default-avatar.png',
     });
   } else {
-    res.redirect('/auth/login');
+    console.log('No session found, redirecting to login.');
+    res.redirect('/auth/login'); // Redirect if session is missing
   }
 });
 
-// Logout
+// Logout Route
 router.get('/logout', (req, res) => {
   req.logout((err) => {
     if (err) {
@@ -106,10 +107,12 @@ router.get('/logout', (req, res) => {
       return res.status(500).send('Error logging out');
     }
     req.session.destroy(() => {
-      res.redirect('/auth/login');
+      res.clearCookie('connect.sid'); // Clear session cookie
+      res.redirect('/auth/login'); // Redirect to login page
     });
   });
 });
+
 
 // Custom Registration Route
 router.post('/register', async (req, res) => {

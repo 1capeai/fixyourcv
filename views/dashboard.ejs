@@ -4,11 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
+  <style>
+    .logout-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #f44336;
+      color: white;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background-color: #d32f2f;
+    }
+
+    .container {
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1>Welcome, <%= name %>!</h1>
     <p>Thank you for signing in. We're glad to have you here!</p>
+
+    <!-- Logout Button -->
+    <form action="/auth/logout" method="POST">
+      <button type="submit" class="logout-btn">Logout</button>
+    </form>
   </div>
 </body>
 </html>
