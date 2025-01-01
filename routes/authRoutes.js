@@ -31,31 +31,19 @@ router.get(
     scope: ['profile', 'email'], // Request profile and email access
   })
 );
-
-// Google OAuth Callback
 router.get('/google/callback', async (req, res) => {
   console.log('OAuth callback hit');
   try {
-    const q = url.parse(req.url, true).query;
-
-    if (q.error) {
-      console.error('OAuth Error:', q.error);
-      return res.status(400).render('login', { title: 'Login', error: `OAuth Error: ${q.error}` });
-    }
-
-    // Exchange code for tokens
-    const { tokens } = await oauth2Client.getToken(q.code);
+    const { tokens } = await oauth2Client.getToken(req.query.code);
     oauth2Client.setCredentials(tokens);
 
-    // Retrieve user info from Google API
     const userInfoResponse = await oauth2Client.request({
       url: 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json',
     });
 
     const userInfo = userInfoResponse.data;
-
-    // Check if user exists or create a new user
     let user = await User.findOne({ email: userInfo.email });
+
     if (!user) {
       user = new User({
         name: userInfo.name,
@@ -66,24 +54,23 @@ router.get('/google/callback', async (req, res) => {
       await user.save();
     }
 
-    // Store user info in session
     req.session.user = {
       id: user._id,
       name: user.name,
       email: user.email,
-      picture: userInfo.picture || '/images/default-avatar.png',
+      picture: user.picture,
     };
 
     console.log('Session after Google login:', req.session);
 
-    // Redirect to mobile deep link or dashboard
-    const redirectUri = `${process.env.REDIRECT_URI}?token=${req.session.user.id}`;
-    return res.redirect(redirectUri); // Redirect back to mobile app
+    const redirectUri = `${process.env.REDIRECT_URI}?token=${tokens.id_token}`;
+    return res.redirect(redirectUri);
   } catch (error) {
     console.error('Error in Google OAuth Callback:', error);
-    res.status(500).render('500', { title: '500 - Internal Server Error' });
+    res.status(500).render('500', { title: 'Internal Server Error' });
   }
 });
+
 
 // Dashboard Route
 router.get('/dashboard', (req, res) => {

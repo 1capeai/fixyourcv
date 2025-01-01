@@ -6,48 +6,25 @@ exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    // Check if the user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).render('register', {
-        title: 'Register',
-        error: 'A user with this email already exists. Please log in.',
-      });
-    }
-
-    // Hash password and save user
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
 
-    // Store user info in session after registration
-    req.session.user = {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-    };
-
-    console.log('User session after registration:', req.session.user); // Debugging session
-
-    // Redirect to dashboard
-    req.session.save((err) => {
-      if (err) {
-        console.error('Error saving session:', err);
-        return res.status(500).render('register', {
-          title: 'Register',
-          error: 'Session saving failed. Please try again.',
-        });
-      }
-      return res.redirect('/dashboard');
+    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
+      expiresIn: '1d',
     });
+
+    const redirectUri = `${process.env.REDIRECT_URI}?token=${token}`;
+    return res.redirect(redirectUri);
   } catch (error) {
     console.error('Error during registration:', error.message);
-    return res.status(400).render('register', {
+    res.status(400).render('register', {
       title: 'Register',
-      error: 'An error occurred while registering. Please try again.',
+      error: 'Registration failed. Please try again.',
     });
   }
 };
+
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;

@@ -14,11 +14,8 @@ const app = express();
 // CORS Configuration
 app.use(
   cors({
-    origin: [
-      'https://fixyourcv.onrender.com', // Add your frontend domain here
-      'http://localhost:19006', // Expo or local development
-    ],
-    credentials: true, // Allow cookies to be sent with requests
+    origin: ['https://fixyourcv.onrender.com', 'http://localhost:19006'], // Add your frontend and local domains
+    credentials: true, // Allow cookies in cross-origin requests
   })
 );
 
@@ -38,8 +35,8 @@ app.use(
       mongoUrl: process.env.DB_URL,
     }),
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // Secure cookies for production
-      sameSite: 'none', // Allow cookies in cross-origin requests
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+      sameSite: 'none', // Allow cross-origin cookies
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     },
@@ -67,7 +64,7 @@ app.get('/dashboard', (req, res) => {
     });
   } else {
     console.log('Unauthorized access to dashboard. Redirecting to login.');
-    res.redirect('/auth/login');
+    res.redirect('/auth/login'); // Redirect to login if not authenticated
   }
 });
 
